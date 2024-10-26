@@ -23,6 +23,7 @@ services:
 
   # データベース
   database:
+    container_name: mysql
     image: mysql:8.4.0
     environment:
       MYSQL_ROOT_PASSWORD: mysql
@@ -38,6 +39,7 @@ services:
 
   # データベース参照できるように
   phpmyadmin:
+    container_name: phpadmin
     image: phpmyadmin
     depends_on:
       - database
