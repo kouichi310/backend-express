@@ -27,6 +27,6 @@ app.listen(config.port, config.host, (e) => {
   }
 });
 
-app.get('/hello', (req, res) => {
-  res.send('hello');
+app.get('/ping', (req, res) => {
+  res.send('pong');
 });
