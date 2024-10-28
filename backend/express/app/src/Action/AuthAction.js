@@ -87,6 +87,22 @@ class AuthAction {
     });
     return resJSON;
   }
+
+  async logout(user_id) {
+    const resJSON = models.User.findByPk(user_id, {
+      include: 'RefreshToken',
+    }).then(async (userInst) => {
+      if (!userInst) {
+        throw new CustomException(403, "Authorization failed!", "error");
+      }
+      if (!userInst.RefreshToken) {
+        throw new CustomException(400, "Already Logout", "error");
+      }
+      const deletedToken = await userInst.RefreshToken.destroy();
+      return deletedToken;
+    });
+    return resJSON;
+  }
 };
 
 module.exports = new AuthAction()

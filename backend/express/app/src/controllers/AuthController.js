@@ -31,4 +31,13 @@ module.exports = class AuthController {
       next(errorHandler(error, response));
     }
   }
+
+  static async logout(request, response, next) {
+    try {
+      const authInfo = await authAction.logout(request.user_id);
+      response.json({"status": true, "message": 'Logged out successfully'});;
+    } catch (error) {
+      next(errorHandler(error, response));
+    }
+  }
 };

@@ -10,6 +10,7 @@ const router = new Router();
 router.post("/login", AuthController.login);
 router.post("/signup", AuthController.signup);
 router.post("/refresh", AuthController.refresh);
+router.get("/logout", verifyAccessToken, AuthController.logout);
 
 // Users
 router.get("/users", verifyAccessToken, UsersController.index);
