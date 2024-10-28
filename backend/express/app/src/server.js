@@ -4,6 +4,8 @@ const cors = require("cors");
 const config = require("./configs/general.config.js");
 const sequelize = require("./sequelize.js");
 const router = require("./router.js");
+const CustomException = require("./Exception/customException.js");
+const errorHandler = require("./middlewares/errorHandler.js");
 
 const app = express();
 
@@ -21,12 +23,13 @@ sequelize
 
 app.use(router);
 
+//Not found
+app.use((req, res, next) => {
+  next(errorHandler(new CustomException(404, 'Endpoint not found!', 'error'), res))
+})
+
 app.listen(config.port, config.host, (e) => {
   if (e) {
     throw new Error("Internal Server Error");
   }
-});
-
-app.get('/ping', (req, res) => {
-  res.send('pong');
 });

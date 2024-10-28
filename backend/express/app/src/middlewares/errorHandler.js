@@ -7,7 +7,7 @@ const errorHandler = (error, res) => {
   
     if (error instanceof CustomException) {
       return res.status(error.statusCode).json({
-        hoge: error.statusCode,
+        statusCode: error.statusCode,
         message: error.message,
         logLevel: error.logLevel
       })
