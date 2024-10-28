@@ -25,8 +25,9 @@ app.use(router);
 
 //Not found
 app.use((req, res, next) => {
-  next(errorHandler(new CustomException(404, 'Endpoint not found!', 'error'), res))
-})
+  response = new CustomException(404, 'Endpoint not found!', 'error')
+  next(errorHandler(response, res))
+});
 
 app.listen(config.port, config.host, (e) => {
   if (e) {

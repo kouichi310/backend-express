@@ -1,13 +1,13 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const models = require("../models");
 const CustomException = require("../Exception/customException");
 
 module.exports = class AuthService {
   async login(body) {
-    const { email, password } = body;
-    const loggedInUser = await User.findOne({
+    const { mail, password } = body;
+    const loggedInUser = await models.User.findOne({
       where: {
-        email,
+        mail,
         password,
       },
     });
@@ -16,12 +16,16 @@ module.exports = class AuthService {
       throw new CustomException(403, "Authorization failed!", "error");
     }
 
-    const token = jwt.sign(
-      { userId: loggedInUser.id, email: loggedInUser.email },
-      "SECRET_KEY",
-      { expiresIn: "600000" } // 10 minutes
-    );
-    return token;
+    try {
+      const token = jwt.sign(
+        { userId: loggedInUser.id, email: loggedInUser.email },
+        "SECRET_KEY",
+        { expiresIn: "600000" } // 10 minutes
+      );
+      return token;
+    } catch (error) {
+      throw new CustomException(403, "token create error!", "error");
+    }
   }
 
   async signUp() {}
