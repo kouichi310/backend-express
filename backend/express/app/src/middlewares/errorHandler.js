@@ -17,6 +17,7 @@ const errorHandler = (error, res) => {
         message: "internal server error",
         logLevel: "error"
       })
+      console.error(error)
     }
 }
 
