@@ -1,8 +1,8 @@
-const User = require("../models/user");
+const models = require("../models");
 
 module.exports = class UsersService {
   async fetchAll() {
-    const fetchedUsers = await User.findAll();
+    const fetchedUsers = await models.User.findAll();
 
     return fetchedUsers;
   }
