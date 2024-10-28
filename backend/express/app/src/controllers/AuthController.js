@@ -1,3 +1,4 @@
+const errorHandler = require("../middlewares/errorHandler");
 const AuthService = require("../services/AuthService");
 
 module.exports = class AuthController {
@@ -6,8 +7,8 @@ module.exports = class AuthController {
       const { body } = request;
       const authInfo = await new AuthService().login(body);
       response.json(authInfo);
-    } catch (e) {
-      next(e);
+    } catch (error) {
+      next(errorHandler(error, response));
     }
   }
 };

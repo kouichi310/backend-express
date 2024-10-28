@@ -1,3 +1,4 @@
+const errorHandler = require("../middlewares/errorHandler");
 const UsersService = require("../services/UserService");
 
 module.exports = class UsersController {
@@ -6,7 +7,7 @@ module.exports = class UsersController {
       const users = await new UsersService().fetchAll();
       response.json(users);
     } catch (error) {
-      next(error);
+      next(errorHandler(error, response));
     }
   }
 };
