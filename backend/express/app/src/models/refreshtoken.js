@@ -2,33 +2,27 @@
 const {
   Model
 } = require('sequelize');
-
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class RefreshToken extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      User.hasOne(models.RefreshToken, {
+      RefreshToken.belongsTo(models.User, {
         foreignKey: 'userId',
+        onDelete: 'CASCADE'
       })
     }
   }
-  User.init({
-    id: {
-      allowNull: false,
-      primaryKey: true,
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-    },
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+  RefreshToken.init({
+    userId: DataTypes.UUID,
+    token: DataTypes.UUID,
+    exiryDate: DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'RefreshToken',
   });
-  return User;
+  return RefreshToken;
 };
