@@ -11,6 +11,7 @@ module.exports = async function verifyAccessToken(request, response, next) {
     const decodedToken = jwt.verify(token, JWT_SECRET);
     console.log("=============AUTH TOKEN=============");
     console.debug(decodedToken);
+    request.user_id = decodedToken.id;
     next();
   } catch {
     next(errorHandler(new CustomException(401, "Authorization failed!", "error"), response));

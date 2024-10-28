@@ -12,10 +12,12 @@ router.post("/signup", AuthController.signup);
 router.post("/refresh", AuthController.refresh);
 
 // Users
-router.get("/users", verifyAccessToken, UsersController.fetchAll);
-module.exports = router;
+router.get("/users", verifyAccessToken, UsersController.index);
+router.get("/me", verifyAccessToken, UsersController.me);
 
 // ping
 router.get('/ping', (req, res) => {
     res.send('pong');
 });
+
+module.exports = router;

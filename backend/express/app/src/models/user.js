@@ -13,7 +13,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasOne(models.RefreshToken, {
         foreignKey: 'userId',
-      })
+      });
+      User.hasOne(models.Student, {
+        foreignKey: 'userId',
+      });
     }
   }
   User.init({
