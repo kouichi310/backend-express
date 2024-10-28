@@ -21,8 +21,6 @@ services:
       SALT: 10
       ACCESS_TOKEN_DURATION_MINUTE: 10
       REFRESH_TOKEN_DURATION_MINUTE: 1440
-      REFRESH_TOKEN_NEW_TOKEN: true
-      REFRESH_TOKEN_RESET_EXP: false
     ports:
       - 3001:3001
       - 3000:3000

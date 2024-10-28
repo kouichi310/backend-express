@@ -7,7 +7,8 @@
     "start": "node src/server.js",
     "dev": "nodemon -L src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migration:run": "npx sequelize-cli db:migrate"
+    "migration:run": "npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "migration:drop": "npx sequelize-cli db:migrate:undo:all"
   },
   "author": "",
   "license": "ISC",

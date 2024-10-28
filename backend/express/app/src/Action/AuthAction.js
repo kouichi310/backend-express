@@ -1,11 +1,10 @@
-//require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const models = require("../models");
-const jwtService = require("./JwtService");
+const jwtService = require("../services/JwtService");
 const CustomException = require("../Exception/customException");
 
-module.exports = class AuthService {
+class AuthAction {
   async login(body) {
     const { email, password } = body;
     const resJson = models.User.findOne({
@@ -23,7 +22,7 @@ module.exports = class AuthService {
       }
       const tokens = await Promise.all([
         jwtService.generateAccessToken(loggedInUser),
-        jwtService.generateRefreshToken(loggedInUser, true, true),
+        jwtService.generateRefreshToken(loggedInUser),
       ]);
 
       let resJSON = { ...loggedInUser.dataValues, ...tokens[0], ...tokens[1] }
@@ -61,4 +60,33 @@ module.exports = class AuthService {
 
     return newUser;
   }
+
+  async refresh(body) {
+    const { id, refreshToken } = body;
+    const resJSON = models.User.findByPk(id, {
+      include: 'RefreshToken',
+    }).then(async (userInst) => {
+      if (!userInst) {
+        throw new CustomException(403, "Authorization failed!", "error");
+      }
+      if (!userInst.RefreshToken) {
+        throw new CustomException(403, "Authorization failed!", "error");
+      }
+      if (userInst.RefreshToken.token !== refreshToken) {
+        throw new CustomException(403, "Authorization failed!", "error");
+      }
+      if (new Date() > userInst.RefreshToken.expiryDate) {
+        throw new CustomException(403, "Authorization failed!", "error");
+      }
+      const tokens = await Promise.all([
+        jwtService.generateAccessToken(userInst)
+      ]);
+
+      let resJSON = { ...tokens[0]}
+      return resJSON;
+    });
+    return resJSON;
+  }
 };
+
+module.exports = new AuthAction()

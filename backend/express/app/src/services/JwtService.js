@@ -10,8 +10,6 @@ class JwtService {
             expiresIn: process.env.ACCESS_TOKEN_DURATION_MINUTE + 'm'
         }
         this.refreshTokenDurationMinute = parseInt(process.env.REFRESH_TOKEN_DURATION_MINUTE, 10) || 1440
-        this.newToken = !!(process.env.REFRESH_TOKEN_NEW_TOKEN === 'true')
-        this.resetExp = !!(process.env.REFRESH_TOKEN_RESET_EXP === 'true')
     }
 
     generateAccessToken(user) {
@@ -36,12 +34,9 @@ class JwtService {
             models.RefreshToken.findOrCreate({
                 where: { userId: user.id }
             }).then(([refreshTokenInst, created]) => {
-                if (this.newToken) refreshTokenInst.set({ token: uuidv4() })
-                if (this.resetExp) {
-                    let refreshTokenExpiryDate = new Date()
-                    refreshTokenExpiryDate.setSeconds(refreshTokenExpiryDate.getSeconds() + 60 * this.refreshTokenDurationMinute)
-                    refreshTokenInst.set({ expiryDate: refreshTokenExpiryDate })
-                }
+                let refreshTokenExpiryDate = new Date()
+                refreshTokenExpiryDate.setSeconds(refreshTokenExpiryDate.getSeconds() + 60 * this.refreshTokenDurationMinute)
+                refreshTokenInst.set({ token: uuidv4(), expiryDate: refreshTokenExpiryDate })
                 return refreshTokenInst.save()
             }).then((updatedInstance) => {
                 resolve({

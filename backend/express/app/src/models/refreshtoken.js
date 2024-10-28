@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   RefreshToken.init({
     userId: DataTypes.UUID,
     token: DataTypes.UUID,
-    exiryDate: DataTypes.DATE
+    expiryDate: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'RefreshToken',

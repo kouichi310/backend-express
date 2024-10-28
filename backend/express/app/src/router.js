@@ -9,6 +9,7 @@ const router = new Router();
 // Auth
 router.post("/login", AuthController.login);
 router.post("/signup", AuthController.signup);
+router.post("/refresh", AuthController.refresh);
 
 // Users
 router.get("/users", verifyAccessToken, UsersController.fetchAll);
