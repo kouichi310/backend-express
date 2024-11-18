@@ -19,4 +19,13 @@ module.exports = class UsersController {
       next(errorHandler(error, response));
     }
   }
+
+  static async update(request, response, next) {
+    try {
+      const user = await UserAction.update(request.user_id, request.body);
+      response.json(user);
+    } catch (error) {
+      next(errorHandler(error, response));
+    }
+  }
 };

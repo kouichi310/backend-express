@@ -17,6 +17,27 @@ class UsersAction {
 
     return fetchedUser;
   }
+
+  async update(id, data) {
+    const user = await models.User.findByPk(id, {
+        include: ['Student']
+    }).catch((error) => {
+        throw new CustomException(404, 'User not found', "error");
+    });
+
+    if (!user) {
+      throw new CustomException(404, 'User not found', "error");
+    }
+    
+    await user.update(data);
+
+    if (data.Student && user.Student) {
+      const student = await models.Student.findByPk(user.Student.id);
+      await student.update(data.Student);
+    }
+
+    return user;
+  } 
 };
 
 module.exports = new UsersAction();
