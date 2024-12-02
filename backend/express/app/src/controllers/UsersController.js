@@ -28,4 +28,13 @@ module.exports = class UsersController {
       next(errorHandler(error, response));
     }
   }
+
+  static async delete(request, response, next) {
+    try {
+      const user = await UserAction.delete(request.user_id);
+      response.json({ message: "sucess" });
+    } catch (error) {
+      next(errorHandler(error, response));
+    }
+  }
 };

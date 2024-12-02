@@ -34,7 +34,7 @@ class AuthAction {
 
   async signup(body) {
     const { email, password } = body;
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     if (!email || !password) {
       throw new CustomException(400, 'Username, email and password are mandatory.', 'error');

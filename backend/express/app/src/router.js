@@ -16,6 +16,7 @@ router.get("/logout", verifyAccessToken, AuthController.logout);
 router.get("/users", verifyAccessToken, UsersController.index);
 router.get("/me", verifyAccessToken, UsersController.me);
 router.put("/me", verifyAccessToken, UsersController.update);
+router.delete("/me", verifyAccessToken, UsersController.delete);
 
 // ping
 router.get('/ping', (req, res) => {
