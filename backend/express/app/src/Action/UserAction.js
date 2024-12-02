@@ -29,12 +29,15 @@ class UsersAction {
       throw new CustomException(404, 'User not found', "error");
     }
     
-    await user.update(data);
-
     if (data.Student && user.Student) {
       const student = await models.Student.findByPk(user.Student.id);
+      if(!student) {
+        throw new CustomException(404, 'Student not found', "error");
+      }
       await student.update(data.Student);
     }
+
+    await user.update(data);
 
     return user;
   } 
