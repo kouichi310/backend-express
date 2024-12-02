@@ -13,6 +13,17 @@ class UnitsAction {
 
     return fetchedUnit;
   }
+
+  async update(userId, body) {
+    const unitString = body.unit.join(',');
+    const data = { userId: userId, unit: unitString };
+    const updatedUnit = await models.Unit.upsert(data).catch((error) => {
+        console.error(error);
+        throw new CustomException(400, 'Unit not updated', "error");
+    });
+
+    return updatedUnit;
+  }
 };
 
 module.exports = new UnitsAction();

@@ -21,7 +21,7 @@ router.delete("/me", verifyAccessToken, UsersController.delete);
 
 // Units
 router.get("/units", verifyAccessToken, UnitsController.get);
-//router.put("/units", verifyAccessToken, UnitsController.update);
+router.post("/units", verifyAccessToken, UnitsController.update);
 
 // ping
 router.get('/ping', (req, res) => {
