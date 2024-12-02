@@ -3,6 +3,7 @@ const UsersController = require("./controllers/UsersController.js");
 const AuthController = require("./controllers/AuthController.js");
 
 const verifyAccessToken = require("./middlewares/verifyAccessToken.js");
+const UnitsController = require("./controllers/UnitsController.js");
 
 const router = new Router();
 
@@ -17,6 +18,10 @@ router.get("/users", verifyAccessToken, UsersController.index);
 router.get("/me", verifyAccessToken, UsersController.me);
 router.put("/me", verifyAccessToken, UsersController.update);
 router.delete("/me", verifyAccessToken, UsersController.delete);
+
+// Units
+router.get("/units", verifyAccessToken, UnitsController.get);
+//router.put("/units", verifyAccessToken, UnitsController.update);
 
 // ping
 router.get('/ping', (req, res) => {
