@@ -16,6 +16,21 @@ class EventAction {
 
     return fetchedEvents;
   }
+
+  async getById(id) {
+    const fetchedEvent = await models.Event.findByPk(id, {
+      include: ['Courses', 'Grades']
+    }).catch((error) => {
+        console.error(error);
+        throw new CustomException(404, 'Event not found', "error");
+    });
+
+    if(!fetchedEvent) {
+        throw new CustomException(404, 'Event not found', "error");
+    }
+
+    return fetchedEvent;
+  }
 };
 
 module.exports = new EventAction();

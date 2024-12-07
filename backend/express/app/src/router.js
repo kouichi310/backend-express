@@ -26,7 +26,7 @@ router.post("/units", verifyAccessToken, UnitsController.update);
 
 router.get("/events", verifyAccessToken, EventsController.index);
 //router.post("/events", verifyAccessToken, EventsController.add);
-//router.get("/events/:id", verifyAccessToken, EventsController.getById);
+router.get("/events/:id", verifyAccessToken, EventsController.view);
 //router.put("/events/:id", verifyAccessToken, EventsController.update);
 
 // ping
