@@ -56,6 +56,34 @@ class EventAction {
 
     return createdEvent;
   }
+
+  async update(id, data) {
+    const updatedEvent = await models.Event.update(data, {
+      where: { id }
+    }).catch((error) => {
+        console.error(error);
+        throw new CustomException(404, 'Event not updated', "error");
+    });
+
+    if (data.Courses) {
+      await models.Course.destroy({ where: { eventId: id } });
+      data.Courses.forEach(course => {
+        course.eventId = id;
+      });
+      await models.Course.bulkCreate(data.Courses);
+    }
+
+    if (data.Grades) {
+      await models.Grade.destroy({ where: { eventId: id } });
+      data.Grades.forEach(grade => {
+        grade.eventId = id;
+      });
+      await models.Grade.bulkCreate(data.Grades);
+    }
+
+    const event = await this.getById(id);
+    return event;
+  }
 };
 
 module.exports = new EventAction();

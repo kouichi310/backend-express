@@ -28,4 +28,13 @@ module.exports = class UnitsController {
       next(errorHandler(error, response));
     }
   }
+
+  static async update(request, response, next) {
+    try {
+      const event = await EventAction.update(request.params.id, request.body);
+      response.json(event);
+    } catch (error) {
+      next(errorHandler(error, response));
+    }
+  }
 };
