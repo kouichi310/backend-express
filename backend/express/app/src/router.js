@@ -25,7 +25,7 @@ router.get("/units", verifyAccessToken, UnitsController.get);
 router.post("/units", verifyAccessToken, UnitsController.update);
 
 router.get("/events", verifyAccessToken, EventsController.index);
-//router.post("/events", verifyAccessToken, EventsController.add);
+router.post("/events", verifyAccessToken, EventsController.add);
 router.get("/events/:id", verifyAccessToken, EventsController.view);
 //router.put("/events/:id", verifyAccessToken, EventsController.update);
 

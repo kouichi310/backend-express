@@ -19,4 +19,13 @@ module.exports = class UnitsController {
       next(errorHandler(error, response));
     }
   }
+
+  static async add(request, response, next) {
+    try {
+      const event = await EventAction.create(request.body);
+      response.json(event);
+    } catch (error) {
+      next(errorHandler(error, response));
+    }
+  }
 };
